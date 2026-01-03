@@ -2,6 +2,7 @@ package com.geisivan.bff_agendador_tarefas.business;
 
 import com.geisivan.bff_agendador_tarefas.business.dto.TarefaDTO;
 import com.geisivan.bff_agendador_tarefas.business.dto.in.TarefaDTOIn;
+import com.geisivan.bff_agendador_tarefas.business.dto.out.TarefaDTOOut;
 import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import com.geisivan.bff_agendador_tarefas.infrastructure.client.TarefaClient;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,9 @@ public class TarefaService {
         return tarefaClient.salvaTarefa(dto, token);
     }
 
-    public List<TarefaDTO> buscaTarefaAgendadaPorPeriodo(LocalDateTime dataInicio,
-                                                         LocalDateTime dataFim,
-                                                         String token){
+    public List<TarefaDTOOut> buscaTarefaAgendadaPorPeriodo(LocalDateTime dataInicio,
+                                                            LocalDateTime dataFim,
+                                                            String token){
         return tarefaClient.buscaTarefaAgendadaPorPeriodo(dataInicio, dataFim, token);
     }
 

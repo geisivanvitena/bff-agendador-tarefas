@@ -3,6 +3,7 @@ package com.geisivan.bff_agendador_tarefas.controller;
 import com.geisivan.bff_agendador_tarefas.business.TarefaService;
 import com.geisivan.bff_agendador_tarefas.business.dto.TarefaDTO;
 import com.geisivan.bff_agendador_tarefas.business.dto.in.TarefaDTOIn;
+import com.geisivan.bff_agendador_tarefas.business.dto.out.TarefaDTOOut;
 import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -54,7 +55,7 @@ public class TarefaController {
             description = "Retorna tarefas agendadas dentro de um período informado")
     @ApiResponse(responseCode = "200", description = "Tarefas encontradas")
     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-    public ResponseEntity<List<TarefaDTO>> buscaTarefaAgendadaPorPeriodo(
+    public ResponseEntity<List<TarefaDTOOut>> buscaTarefaAgendadaPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim,
             @RequestHeader(value = "Authorization", required = false) String token){
