@@ -1,12 +1,13 @@
 package com.geisivan.bff_agendador_tarefas.infrastructure.client;
 
-import com.geisivan.bff_agendador_tarefas.business.dto.TarefaDTO;
-import com.geisivan.bff_agendador_tarefas.business.dto.in.TarefaDTOIn;
-import com.geisivan.bff_agendador_tarefas.business.dto.out.TarefaDTOOut;
+import com.geisivan.bff_agendador_tarefas.business.dto.request.TarefaRequestDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.response.TarefaResponseDTO;
 import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,30 +15,36 @@ import java.util.List;
 public interface TarefaClient {
 
     @PostMapping
-    TarefaDTO salvaTarefa(@RequestBody TarefaDTOIn dto,
-                          @RequestHeader("Authorization") String token);
-
-    @GetMapping("/eventos")
-    List<TarefaDTOOut> buscaTarefaAgendadaPorPeriodo(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim,
-            @RequestHeader("Authorization") String token);
+    TarefaResponseDTO criarTarefa(
+            @RequestBody TarefaRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
     @GetMapping
-    List<TarefaDTO> buscaTarefaPorEmail(@RequestHeader("Authorization") String token);
+    List<TarefaResponseDTO> buscarTarefasPorEmail(
+            @RequestHeader(value = "Authorization", required = false) String token);
+
+    @GetMapping("/periodo")
+    List<TarefaResponseDTO> buscarTarefasPorPeriodo(
+            @RequestParam @DateTimeFormat(
+                    iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
+            @RequestParam @DateTimeFormat(
+                    iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
     @PutMapping
-    TarefaDTO updateTarefa(@RequestBody TarefaDTOIn dto,
-                           @RequestParam("id") String id,
-                           @RequestHeader("Authorization") String token);
+    TarefaResponseDTO atualizarTarefa(
+            @RequestParam("id") String id,
+            @RequestBody TarefaRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
     @PatchMapping
-    TarefaDTO alteraStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum satus,
-                                      @RequestParam("id") String id,
-                                      @RequestHeader("Authorization") String token);
+    TarefaResponseDTO atualizarStatusTarefa(
+            @RequestParam("id") String id,
+            @RequestParam("status") StatusNotificacaoEnum status,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
     @DeleteMapping
-    void deletaTarefaPorId(@RequestParam("id") String id,
-                           @RequestHeader("Authorization") String token);
-
+    void deletarTarefa(
+            @RequestParam("id") String id,
+            @RequestHeader(value = "Authorization", required = false) String token);
 }

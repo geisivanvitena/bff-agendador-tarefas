@@ -13,10 +13,10 @@ public class FeignError implements ErrorDecoder {
     public Exception decode(String s, Response response) {
 
         return   switch (response.status()){
-           case 409 -> new ConflictException("Atributo já existente. ");
-           case 404 -> new ResourceNotFoundException("Recurso não encontrado. ");
-           case 401 -> new UnauthorizedException("Usuário não autorizado. ");
-           default -> new BusinessException("Erro interno do servidor. ");
+            case 401 -> new UnauthorizedException("Acesso negado: Usuário não autorizado.");
+            case 404 -> new ResourceNotFoundException("Recurso não encontrado.");
+            case 409 -> new ConflictException("Usuário já cadastrado.");
+            default -> new BusinessException("Erro interno do servidor.");
        };
     }
 }
