@@ -1,12 +1,13 @@
 package com.geisivan.bff_agendador_tarefas.infrastructure.client;
 
-import com.geisivan.bff_agendador_tarefas.business.dto.EnderecoDTO;
-import com.geisivan.bff_agendador_tarefas.business.dto.TelefoneDTO;
-import com.geisivan.bff_agendador_tarefas.business.dto.UsuarioDTO;
-import com.geisivan.bff_agendador_tarefas.business.dto.in.EnderecoDTOIn;
-import com.geisivan.bff_agendador_tarefas.business.dto.in.LoginDTOIn;
-import com.geisivan.bff_agendador_tarefas.business.dto.in.TelefoneDTOIn;
-import com.geisivan.bff_agendador_tarefas.business.dto.in.UsuarioDTOIn;
+import com.geisivan.bff_agendador_tarefas.business.dto.request.EnderecoRequestDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.request.LoginRequestDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.request.TelefoneRequestDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.request.UsuarioRequestDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.response.EnderecoResponseDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.response.TelefoneResponseDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.response.UsuarioResponseDTO;
+import com.geisivan.bff_agendador_tarefas.business.dto.response.ViaCepResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,43 +15,48 @@ import org.springframework.web.bind.annotation.*;
 public interface UsuarioClient {
 
     @PostMapping
-    UsuarioDTO salvaUsuario(@RequestBody UsuarioDTOIn dto);
+    UsuarioResponseDTO criarUsuario(@RequestBody UsuarioRequestDTO dto);
 
     @PostMapping("/login")
-    String login(@RequestBody LoginDTOIn dto);
+    String loginUsuario(@RequestBody LoginRequestDTO dto);
 
-    @GetMapping("/usuario")
-    UsuarioDTO buscaUsuarioPorEmail(@RequestParam("email") String email,
-                                    @RequestHeader("Authorization") String token);
-
-    @DeleteMapping("/{email}")
-    void deletaUsuarioPorEmail(@PathVariable("email") String email,
-                              @RequestHeader("Authorization") String token);
+    @GetMapping
+    UsuarioResponseDTO buscarUsuarioPorEmail(
+            @RequestParam("email") String email,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
     @PutMapping
-    UsuarioDTO atualizaDadosUsuario(@RequestBody UsuarioDTOIn dto,
-                                   @RequestHeader("Authorization") String token);
+    UsuarioResponseDTO atualizarUsuario(
+            @RequestBody UsuarioRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
-    @PostMapping("/endereco")
-    EnderecoDTO cadastraEndereco(@RequestBody EnderecoDTOIn dto,
-                                 @RequestHeader("Authorization") String token);
+    @PostMapping("/enderecos")
+    EnderecoResponseDTO criarEndereco(
+            @RequestBody EnderecoRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
-    @PutMapping("/endereco")
-    EnderecoDTO atualizaDadosEndereco(@RequestBody EnderecoDTOIn dto,
-                                     @RequestParam("id") Long id,
-                                     @RequestHeader("Authorization") String token);
+    @PutMapping("/enderecos")
+    EnderecoResponseDTO atualizarEndereco(
+            @RequestParam("id") Long id,
+            @RequestBody EnderecoRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
+    @PostMapping("/telefones")
+    TelefoneResponseDTO criarTelefone(
+            @RequestBody TelefoneRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
-    @PostMapping("/telefone")
-    TelefoneDTO cadastraTelefone(@RequestBody TelefoneDTOIn dto,
-                                 @RequestHeader("Authorization") String token);
+    @PutMapping("/telefones")
+    TelefoneResponseDTO atualizarTelefone(
+            @RequestParam("id") Long id,
+            @RequestBody TelefoneRequestDTO dto,
+            @RequestHeader(value = "Authorization", required = false) String token);
 
-    @PutMapping("/telefone")
-    TelefoneDTO atualizaDadosTelefone(@RequestBody TelefoneDTOIn dto,
-                                     @RequestParam("id") Long id,
-                                     @RequestHeader("Authorization") String token);
+    @GetMapping("/enderecos/{cep}")
+    ViaCepResponseDTO buscarEnderecoPorCep(@PathVariable("cep") String cep);
 
-
-
-
+    @DeleteMapping("/{email}")
+    void deletarUsuarioPorEmail(
+            @PathVariable("email") String email,
+            @RequestHeader(value = "Authorization", required = false) String token);
 }

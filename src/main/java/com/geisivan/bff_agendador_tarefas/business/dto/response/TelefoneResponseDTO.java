@@ -1,4 +1,4 @@
-package com.geisivan.bff_agendador_tarefas.business.dto.out;
+package com.geisivan.bff_agendador_tarefas.business.dto.response;
 
 import lombok.*;
 
@@ -7,8 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TelefoneDTOOut {
-
+public class TelefoneResponseDTO {
     private Long id;
     private String numero;
     private String ddd;

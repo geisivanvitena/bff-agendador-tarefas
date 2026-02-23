@@ -1,4 +1,4 @@
-package com.geisivan.bff_agendador_tarefas.business.dto.out;
+package com.geisivan.bff_agendador_tarefas.business.dto.request;
 
 import lombok.*;
 
@@ -7,9 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EnderecoDTOOut {
-
-    private Long id;
+public class EnderecoRequestDTO {
     private String rua;
     private Long numero;
     private String complemento;

@@ -1,9 +1,10 @@
-package com.geisivan.bff_agendador_tarefas.business.dto.out;
+package com.geisivan.bff_agendador_tarefas.business.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,8 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TarefaDTOOut {
-
+public class TarefaResponseDTO {
     private String id;
     private String nomeTarefa;
     private String descricao;
