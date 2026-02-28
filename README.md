@@ -1,62 +1,69 @@
-# 🚀 Microserviço - BFF Agendador de Tarefas
+# Microserviço - BFF Agendador de Tarefas
 
-### 📌 Sobre o Projeto
+## Sobre o Projeto
 
 O bff-agendador-tarefas é um microserviço Backend for Frontend (BFF) responsável por atuar como intermediário entre os clientes (Web e Mobile) e os microserviços do sistema de agendamento de tarefas.
 
 O objetivo principal é agregar dados de diferentes serviços, reduzindo chamadas diretas do frontend para os microserviços, melhorando a performance e facilitando a manutenção da arquitetura.
 
 O sistema possui autenticação centralizada e documentação das APIs com Swagger.
-________________________________________
-### 🏗️ Arquitetura do Sistema
 
-O BFF se comunica com os seguintes microserviços:
+##
 
-•	👤 Usuário — gerenciamento de usuários e autenticação
+## Arquitetura do Sistema
 
-•	📋 Agendador de tarefas — controle de tarefas e status
+### O BFF se comunica com os seguintes microserviços:
 
-•	🔔 Notificação — envio de e-mails e alertas
+• Usuário — gerenciamento de usuários e autenticação
 
-Arquitetura baseada em microserviços com comunicação REST e agregação de dados via BFF Pattern.
+• Agendador de tarefas — controle de tarefas e status
 
-Fluxo da arquitetura:
-Frontend → BFF → Microserviços → Banco de Dados
-________________________________________
-### 🔐 Autenticação
+• Notificação — envio de e-mails e alertas
+
+• Arquitetura baseada em microserviços com comunicação REST e agregação de dados via BFF Pattern.
+
+### Fluxo da arquitetura:
+• Frontend → BFF → Microserviços → Banco de Dados
+
+## 
+
+## Autenticação
+
 O sistema possui autenticação implementada no microserviço de usuário utilizando Spring Security e JWT.
 
 O BFF atua como intermediário, validando e repassando as credenciais para os serviços apropriados.
-________________________________________
-### 📚 Documentação da API (Swagger)
-A documentação das APIs pode ser acessada via Swagger nos microserviços:
+
+##
+
+## Documentação da API (Swagger)
+
+### A documentação das APIs pode ser acessada via Swagger nos microserviços:
 
 •	Usuário API → http://localhost:8080/swagger-ui.html
 
 •	Agendador API → http://localhost:8081/swagger-ui.html
 
 •	Notificação API → http://localhost:8082/swagger-ui.html
-________________________________________
-###🛠️ Tecnologias Utilizadas
 
-•	☕ Java 17
+##
 
-•	🌱 Spring Boot 3
+## Tecnologias Utilizadas
 
-•	📦 Maven
+•	Java 17
 
-•	🔗 OpenFeign (Comunicação entre microserviços)
+•	Spring Boot 3
 
-•	🔐 Spring Security + JWT
+•	Maven
 
-•	🐳 Docker
+•	OpenFeign (Comunicação entre microserviços)
 
-•	🐘 PostgreSQL
+•	Docker
 
-•	🍃 MongoDB
-________________________________________
-### 📦 Pré-requisitos
-Antes de executar o projeto você precisa ter instalado:
+##
+
+## Pré-requisitos
+
+### Antes de executar o projeto você precisa ter instalado:
 
 •	Docker
 
@@ -65,54 +72,69 @@ Antes de executar o projeto você precisa ter instalado:
 •	Java 17
 
 •	Maven (opcional se usar Docker)
-________________________________________
-### ⚙️ Variáveis de Ambiente
-Criar arquivo .env com as variáveis:
 
-DB_USER=usuario
+##
 
-DB_PASSWORD=senha
+## Variáveis de Ambiente
 
-BFF_API_PORT=8083
+### Criar arquivo .env com as variáveis:
 
-USUARIO_API_PORT=8080
+• DB_USER=usuario
 
-AGENDADOR_API_PORT=8081
+• DB_PASSWORD=senha
 
-NOTIFICACAO_API_PORT=8082
-________________________________________
-### ▶️ Como Executar o Projeto
-git clone URL_DO_REPOSITORIO
+• BFF_API_PORT=8083
 
-cd bff-agendador-api
+• USUARIO_API_PORT=8080
 
-docker compose down
+• AGENDADOR_API_PORT=8081
 
-docker compose up --build
-________________________________________
-### 🔗 Endpoints Expostos
-Serviço	Porta
+• NOTIFICACAO_API_PORT=8082
 
-BFF	8083
+##
 
-Usuário API	8080
+## Como Executar o Projeto
 
-Agendador API	8081
+• git clone URL_DO_REPOSITORIO
 
-Notificação API	8082
-________________________________________
-### 📊 Benefícios da Arquitetura
-•	✅ Redução de chamadas do frontend
+• cd bff-agendador-api
 
-•	✅ Melhor organização da comunicação
+• docker compose down
 
-•	✅ Escalabilidade
+• docker compose up --build
 
-•	✅ Segurança centralizada
+##
 
-•	✅ Separação de responsabilidades
-________________________________________
-### ⭐ Melhorias Futuras
+### Endpoints Expostos
+
+• Serviço	Porta
+
+• BFF	8083
+
+• Usuário API	8080
+
+• Agendador API	8081
+
+• Notificação API	8082
+
+##
+
+## Benefícios da Arquitetura
+
+•	Redução de chamadas do frontend
+
+•	Melhor organização da comunicação
+
+•	Escalabilidade
+
+•	Segurança centralizada
+
+•	Separação de responsabilidades
+
+##
+
+## Melhorias Futuras
+
 •	Implementar Circuit Breaker
 
 •	Melhorar monitoramento com Actuator + Prometheus
@@ -120,3 +142,12 @@ ________________________________________
 •	Adicionar mensageria (RabbitMQ ou Kafka)
 
 •	Deploy em Cloud
+
+##
+
+## Autor
+
+Desenvolvido por **Geisivan Vitena**
+
+LinkedIn:  
+https://www.linkedin.com/in/geisivan-vitena-a46168246/

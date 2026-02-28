@@ -1,9 +1,9 @@
-package com.geisivan.bff_agendador_tarefas.business.dto.in;
+package com.geisivan.bff_agendador_tarefas.business.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,11 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TarefaDTOIn {
-
+public class TarefaRequestDTO {
     private String nomeTarefa;
     private String descricao;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataEvento;
 
 }

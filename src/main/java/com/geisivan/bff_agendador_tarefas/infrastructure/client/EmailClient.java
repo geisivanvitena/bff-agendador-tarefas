@@ -1,7 +1,6 @@
 package com.geisivan.bff_agendador_tarefas.infrastructure.client;
 
-import com.geisivan.bff_agendador_tarefas.business.dto.TarefaDTO;
-import com.geisivan.bff_agendador_tarefas.business.dto.out.TarefaDTOOut;
+import com.geisivan.bff_agendador_tarefas.business.dto.response.TarefaResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface EmailClient {
 
     @PostMapping
-    void enviarEmail(@RequestBody TarefaDTOOut dto);
+    void enviarEmail(@RequestBody TarefaResponseDTO dto);
 }
