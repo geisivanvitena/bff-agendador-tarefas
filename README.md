@@ -1,153 +1,211 @@
-# Microserviço - BFF Agendador de Tarefas
+# Microserviço BFF - Agendador de Tarefas (bff-agendador)
 
-## Sobre o Projeto
+### Contexto do Projeto
 
-O bff-agendador-tarefas é um microserviço Backend for Frontend (BFF) responsável por atuar como intermediário entre os clientes (Web e Mobile) e os microserviços do sistema de agendamento de tarefas.
+O bff-agendador é uma API REST desenvolvida em Java com Spring Boot e faz parte do projeto Agendador de Tarefas, construído com base em arquitetura de microserviços.
 
-O objetivo principal é agregar dados de diferentes serviços, reduzindo chamadas diretas do frontend para os microserviços, melhorando a performance e facilitando a manutenção da arquitetura.
+Este microserviço implementa o padrão Backend for Frontend (BFF), atuando como camada intermediária entre os clientes (Web e Mobile) e os microserviços internos do sistema.
 
-O sistema possui autenticação centralizada e documentação das APIs com Swagger.
+Seu principal objetivo é orquestrar chamadas, agregar dados de múltiplos serviços e reduzir o acoplamento direto entre o frontend e os microserviços de domínio.
 
 ##
 
-## Arquitetura do Sistema
+### Papel na Arquitetura de Microserviços
 
-### O BFF se comunica com os seguintes microserviços:
+Dentro da arquitetura do Agendador de Tarefas, o BFF é responsável por:
 
-• Usuário — gerenciamento de usuários e autenticação
+• Orquestrar chamadas entre microserviços
 
-• Agendador de tarefas — controle de tarefas e status
+• Agregar dados de múltiplas fontes
 
-• Notificação — envio de e-mails e alertas
+• Reduzir a complexidade no frontend
 
-• Arquitetura baseada em microserviços com comunicação REST e agregação de dados via BFF Pattern.
+• Centralizar regras específicas de apresentação
 
-### Fluxo da arquitetura:
+• Padronizar respostas para os clientes
+
+A comunicação ocorre via HTTP, utilizando padrão REST e troca de dados em formato JSON.
+
+O BFF se comunica com os seguintes microserviços:
+
+• ms-usuarios — gerenciamento de usuários e autenticação
+
+• ms-agendador — gerenciamento de tarefas e status
+
+• ms-notificacao — envio de notificações e alertas
+
+Fluxo arquitetural:
+
 • Frontend → BFF → Microserviços → Banco de Dados
 
-## 
+Essa abordagem promove:
 
-## Autenticação
+Separação clara de responsabilidades
 
-O sistema possui autenticação implementada no microserviço de usuário utilizando Spring Security e JWT.
+• Desacoplamento entre frontend e serviços de domínio
 
-O BFF atua como intermediário, validando e repassando as credenciais para os serviços apropriados.
+• Evolução independente dos microserviços
 
-##
-
-## Documentação da API (Swagger)
-
-### A documentação das APIs pode ser acessada via Swagger nos microserviços:
-
-•	Usuário API → http://localhost:8080/swagger-ui.html
-
-•	Agendador API → http://localhost:8081/swagger-ui.html
-
-•	Notificação API → http://localhost:8082/swagger-ui.html
+• Maior controle da comunicação externa
 
 ##
 
-## Tecnologias Utilizadas
+### API REST
+
+O bff-agendador expõe endpoints REST stateless, utilizando:
+
+• Métodos HTTP (GET, POST, PUT, DELETE)
+
+• Representação de recursos em JSON
+
+• Comunicação síncrona entre serviços via REST
+
+• Integração entre microserviços utilizando OpenFeign
+
+##
+
+### Autenticação
+
+A autenticação é centralizada no ms-usuarios, utilizando:
+
+• Spring Security
+
+• JWT (JSON Web Token)
+
+O BFF atua como intermediário, validando e repassando o token JWT para os serviços apropriados, garantindo que apenas requisições autenticadas sejam processadas.
+
+##
+
+### Observabilidade
+
+O microserviço utiliza Spring Boot Actuator para monitoramento e exposição de métricas operacionais.
+
+Os endpoints de gerenciamento permitem:
+
+•  Healthcheck da aplicação
+
+•  Monitoramento de disponibilidade
+
+•  Exposição de métricas de desempenho
+
+•  Informações do ambiente
+
+Exemplo de endpoint:
+
+http://localhost:8083/actuator/health
+
+A utilização do Actuator no BFF é especialmente relevante, pois ele atua como ponto central de entrada do sistema, permitindo monitorar a disponibilidade da camada de orquestração.
+
+##
+
+### Tecnologias Utilizadas
 
 •	Java 17
 
-•	Spring Boot 3
+•	Spring Boot 
 
 •	Maven
 
 •	OpenFeign (Comunicação entre microserviços)
 
-•	Docker
-
-##
-
-## Pré-requisitos
-
-### Antes de executar o projeto você precisa ter instalado:
+• Spring Boot Actuator
 
 •	Docker
 
-•	Docker Compose
+##
 
-•	Java 17
+### Documentação da API
 
-•	Maven (opcional se usar Docker)
+A documentação das APIs está disponível via Swagger nos respectivos microserviços:
+
+Usuário API
+http://localhost:8080/swagger-ui.html
+
+Agendador API
+http://localhost:8081/swagger-ui.html
+
+Notificação API
+http://localhost:8082/swagger-ui.html
+
+BFF API
+http://localhost:8083/swagger-ui.html
 
 ##
 
-## Variáveis de Ambiente
+### Execução do Projeto
 
-### Criar arquivo .env com as variáveis:
+• Execução com Docker
 
-• DB_USER=usuario
+1. git clone URL_DO_REPOSITORIO
 
-• DB_PASSWORD=senha
-
-• BFF_API_PORT=8083
-
-• USUARIO_API_PORT=8080
-
-• AGENDADOR_API_PORT=8081
-
-• NOTIFICACAO_API_PORT=8082
+2. cd bff-agendador-api
+   
+3. docker compose down
+   
+4. docker compose up --build
 
 ##
 
-## Como Executar o Projeto
+### Variáveis de Ambiente
 
-• git clone URL_DO_REPOSITORIO
+Criar um arquivo .env na raiz do projeto contendo:
 
-• cd bff-agendador-api
+•	DB_USER=usuario
 
-• docker compose down
+•	DB_PASSWORD=senha
 
-• docker compose up --build
+•	BFF_API_PORT=8083
+
+•	USUARIO_API_PORT=8080
+
+•	AGENDADOR_API_PORT=8081
+
+•	NOTIFICACAO_API_PORT=8082 
 
 ##
 
 ### Endpoints Expostos
 
-• Serviço	Porta
-
-• BFF	8083
-
-• Usuário API	8080
-
-• Agendador API	8081
-
-• Notificação API	8082
+| Serviço	               |   Porta   |
+|------------------------|-----------| 
+| BFF	                   |    8083   |
+| Usuário API	           |    8080   |
+| Agendador API	         |    8081   |
+| Notificação API	       |    8082   |
 
 ##
 
-## Benefícios da Arquitetura
+## Benefícios Arquiteturais
 
-•	Redução de chamadas do frontend
+• Redução de chamadas diretas do frontend para múltiplos serviços
 
-•	Melhor organização da comunicação
+• Orquestração centralizada
 
-•	Escalabilidade
+• Melhor organização da comunicação externa
 
-•	Segurança centralizada
+• Segurança centralizada via JWT
 
-•	Separação de responsabilidades
+• Escalabilidade independente
+
+• Aplicação do padrão BFF
 
 ##
 
 ## Melhorias Futuras
 
-•	Implementar Circuit Breaker
+•	Implementação de Circuit Breaker (Resiliência)
 
-•	Melhorar monitoramento com Actuator + Prometheus
+• Integração com Prometheus para métricas
 
-•	Adicionar mensageria (RabbitMQ ou Kafka)
+• Implementação de mensageria (RabbitMQ ou Kafka)
 
-•	Deploy em Cloud
+• Deploy em ambiente Cloud
 
 ##
 
-## Autor
+### Autor
 
-Desenvolvido por **Geisivan Vitena**
+**Geisivan Vitena**
 
 LinkedIn:  
 https://www.linkedin.com/in/geisivan-vitena-a46168246/
