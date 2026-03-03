@@ -92,9 +92,31 @@ Os endpoints de gerenciamento permitem:
 
 Exemplo de endpoint:
 
-http://localhost:8083/actuator/health
+    http://localhost:8083/actuator/health
 
 A utilização do Actuator no BFF é especialmente relevante, pois ele atua como ponto central de entrada do sistema, permitindo monitorar a disponibilidade da camada de orquestração.
+
+##
+
+### Documentação da API
+
+A documentação das APIs está disponível via Swagger nos respectivos microserviços:
+
+Usuário API
+
+    http://localhost:8080/swagger-ui.html
+
+Agendador API
+
+    http://localhost:8081/swagger-ui.html
+
+Notificação API
+
+    http://localhost:8082/swagger-ui.html
+
+BFF API
+
+    http://localhost:8083/swagger-ui.html
 
 ##
 
@@ -114,35 +136,24 @@ A utilização do Actuator no BFF é especialmente relevante, pois ele atua como
 
 ##
 
-### Documentação da API
+### Endpoints Expostos
 
-A documentação das APIs está disponível via Swagger nos respectivos microserviços:
-
-Usuário API
-http://localhost:8080/swagger-ui.html
-
-Agendador API
-http://localhost:8081/swagger-ui.html
-
-Notificação API
-http://localhost:8082/swagger-ui.html
-
-BFF API
-http://localhost:8083/swagger-ui.html
+| Serviço	              | Porta |
+|-----------------------|-------| 
+| Usuário API	                 | 8080  |
+| Agendador API	         | 8081  |
+| Notificação API        | 8082  |
+| BFF       | 8083  |
 
 ##
 
 ### Execução do Projeto
 
-• Execução com Docker
+Docker
 
-1. git clone URL_DO_REPOSITORIO
-
-2. cd bff-agendador-api
+    docker compose down
    
-3. docker compose down
-   
-4. docker compose up --build
+    docker compose up --build
 
 ##
 
@@ -150,28 +161,53 @@ http://localhost:8083/swagger-ui.html
 
 Criar um arquivo .env na raiz do projeto contendo:
 
-•	DB_USER=usuario
+Banco de Dados (PostgreSQL)
 
-•	DB_PASSWORD=senha
+    DB_USER=usuario
 
-•	BFF_API_PORT=8083
+    DB_PASSWORD=senha
 
-•	USUARIO_API_PORT=8080
+Responsável pela autenticação no banco utilizado pelo BFF
 
-•	AGENDADOR_API_PORT=8081
+Login do Sistema (Automação / Cron)
 
-•	NOTIFICACAO_API_PORT=8082 
+    USUARIO_EMAIL=email
 
-##
+    USUARIO_SENHA=senha
 
-### Endpoints Expostos
+Credenciais utilizadas para autenticação automática entre serviços (ex: rotinas agendadas).
 
-| Serviço	               |   Porta   |
-|------------------------|-----------| 
-| BFF	                   |    8083   |
-| Usuário API	           |    8080   |
-| Agendador API	         |    8081   |
-| Notificação API	       |    8082   |
+Portas dos Microserviços
+
+    USUARIO_API_PORT=8080
+
+    AGENDADOR_API_PORT=8081
+
+    NOTIFICACAO_API_PORT=8082 
+
+    BFF_API_PORT=8083
+
+Definem as portas de comunicação entre:
+
+• ms-usuarios
+
+• ms-tarefas
+
+• ms-notificacao
+
+• bff-agendador
+
+Configuração de E-mail (Notificações)
+
+    MAIL_USERNAME=email
+
+    MAIL_PASSWORD=senha
+
+    MAIL_HOST=smtp.gmail.com
+
+    MAIL_PORT=587
+
+Utilizado para envio de notificações por e-mail via SMTP.
 
 ##
 
@@ -193,7 +229,7 @@ Criar um arquivo .env na raiz do projeto contendo:
 
 ## Melhorias Futuras
 
-•	Implementação de Circuit Breaker (Resiliência)
+• Implementação de Circuit Breaker (Resiliência)
 
 • Integração com Prometheus para métricas
 
