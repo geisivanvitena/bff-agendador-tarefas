@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@FeignClient(name = "tarefa", url = "${tarefa.url}")
+@FeignClient(name = "tarefa", url = "${tarefa.url}/tarefas")
 public interface TarefaClient {
 
     @PostMapping

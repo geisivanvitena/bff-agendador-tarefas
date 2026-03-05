@@ -147,9 +147,9 @@ public class UsuarioController {
                description = "Retorna os dados do endereço com base no CEP informado."
     )
     @ApiResponse(responseCode = "200", description = "Endereço localizado com sucesso.")
-    @ApiResponse(responseCode = "404", description = "Endereço não encontrado.")
+    @ApiResponse(responseCode = "404", description = "Endereço não localizado.")
     @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
-    public ResponseEntity<ViaCepResponseDTO> buscarEnderecoPorCep(@PathVariable String cep){
+    public ResponseEntity<ViaCepResponseDTO> buscarEnderecoPorCep(@PathVariable("cep") String cep){
         return ResponseEntity.ok(usuarioService.buscarEnderecoPorCep(cep));
     }
 
