@@ -5,31 +5,32 @@ services:
     container_name: postgres
     restart: unless-stopped
 
-    environment:
-      POSTGRES_DB: db_usuario
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
 
     ports:
       - "5432:5432"
 
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 15s
       timeout: 10s
       retries: 10
       start_period: 60s
+
+    networks:
+      - microservices-network
 
   mongo:
     image: mongo:latest
     container_name: mongo
     restart: unless-stopped
 
+    env_file:
+      - .env
+
     ports:
       - "27017:27017"
-
-    environment:
-      MONGO_INITDB_DATABASE: db_agendador
 
     healthcheck:
       test: ["CMD-SHELL", "mongosh --eval 'db.runCommand({ ping: 1 })'"]
@@ -38,17 +39,18 @@ services:
       retries: 10
       start_period: 60s
 
+    networks:
+      - microservices-network
+
   usuario-api:
     build: ../usuario-api
     container_name: usuario-api
 
+    env_file:
+      - .env
+
     ports:
       - "${USUARIO_API_PORT}:8080"
-
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_usuario
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
 
     depends_on:
       postgres:
@@ -61,15 +63,18 @@ services:
       retries: 10
       start_period: 60s
 
+    networks:
+      - microservices-network
+
   agendador-api:
     build: ../agendador-api
     container_name: agendador-api
 
+    env_file:
+      - .env
+
     ports:
       - "${AGENDADOR_API_PORT}:8081"
-
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/db_agendador
 
     depends_on:
       mongo:
@@ -82,18 +87,18 @@ services:
       retries: 10
       start_period: 60s
 
+    networks:
+      - microservices-network
+
   notificacao-api:
     build: ../notificacao-api
     container_name: notificacao-api
 
+    env_file:
+      - .env
+
     ports:
       - "${NOTIFICACAO_API_PORT}:8082"
-
-    environment:
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
-      MAIL_HOST: ${MAIL_HOST}
-      MAIL_PORT: ${MAIL_PORT}
 
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://notificacao-api:8082/actuator/health || exit 1"]
@@ -102,20 +107,18 @@ services:
       retries: 10
       start_period: 60s
 
+    networks:
+      - microservices-network
+
   bff-agendador-api:
     build: .
     container_name: bff-agendador-api
 
-    ports:
-      - "${BFF_API_PORT}:8083"
-
     env_file:
       - .env
 
-    environment:
-      USUARIO_API_URL: http://usuario-api:8080/usuarios
-      AGENDADOR_API_URL: http://agendador-api:8081/tarefas
-      NOTIFICACAO_API_URL: http://notificacao-api:8082/email
+    ports:
+      - "${BFF_API_PORT}:8083"
 
     depends_on:
       usuario-api:
@@ -125,7 +128,6 @@ services:
       notificacao-api:
         condition: service_healthy
 
-
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://bff-agendador-api:8083/actuator/health || exit 1"]
       interval: 20s
@@ -133,6 +135,9 @@ services:
       retries: 10
       start_period: 60s
 
+    networks:
+      - microservices-network
+
 networks:
-  default:
+  microservices-network:
     driver: bridge

@@ -11,7 +11,7 @@ import com.geisivan.bff_agendador_tarefas.business.dto.response.ViaCepResponseDT
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "usuario", url = "${usuario.url}")
+@FeignClient(name = "usuario", url = "${usuario.url}/usuarios")
 public interface UsuarioClient {
 
     @PostMapping

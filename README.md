@@ -211,7 +211,7 @@ Utilizado para envio de notificações por e-mail via SMTP.
 
 ##
 
-## Benefícios Arquiteturais
+### Benefícios Arquiteturais
 
 • Redução de chamadas diretas do frontend para múltiplos serviços
 
@@ -227,7 +227,7 @@ Utilizado para envio de notificações por e-mail via SMTP.
 
 ##
 
-## Melhorias Futuras
+### Melhorias Futuras
 
 • Implementação de Circuit Breaker (Resiliência)
 
