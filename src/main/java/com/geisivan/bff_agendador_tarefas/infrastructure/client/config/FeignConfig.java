@@ -1,5 +1,6 @@
 package com.geisivan.bff_agendador_tarefas.infrastructure.client.config;
 
+import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeignConfig {
 
     @Bean
-    public FeignError feignError(){
+    public ErrorDecoder errorDecoder() {
         return new FeignError();
     }
 }
