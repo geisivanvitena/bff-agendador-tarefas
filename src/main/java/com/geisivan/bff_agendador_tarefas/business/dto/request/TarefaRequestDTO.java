@@ -2,8 +2,6 @@ package com.geisivan.bff_agendador_tarefas.business.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
