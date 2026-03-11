@@ -1,16 +1,17 @@
 # Microserviço BFF - Agendador de Tarefas (bff-agendador)
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-
 ![Java 17](https://img.shields.io/badge/java-17-brightgreen)
-
 ![Spring Boot 3.3.5](https://img.shields.io/badge/spring_boot-3.3.5-brightgreen)
-
 ![Maven 3.9.6](https://img.shields.io/badge/Maven-3.9.6-blue)
-
 ![Dependências Seguras](https://img.shields.io/badge/dependencies-secure-brightgreen)
-
 ![GitHub Actions](https://github.com/geisivanvitena/bff-agendador-tarefas/actions/workflows/maven.yml/badge.svg)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=alert_status)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=bugs)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=code_smells)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
+[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
 
 ---
 
