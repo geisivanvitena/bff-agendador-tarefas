@@ -3,10 +3,8 @@ package com.geisivan.bff_agendador_tarefas.infrastructure.client.config;
 import com.geisivan.bff_agendador_tarefas.infrastructure.exceptions.*;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 public class FeignError implements ErrorDecoder {
 
