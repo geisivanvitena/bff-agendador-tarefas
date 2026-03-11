@@ -3,8 +3,6 @@ package com.geisivan.bff_agendador_tarefas.business.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import lombok.*;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter

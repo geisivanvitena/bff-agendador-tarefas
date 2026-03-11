@@ -6,8 +6,6 @@ import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import com.geisivan.bff_agendador_tarefas.infrastructure.client.TarefaClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
