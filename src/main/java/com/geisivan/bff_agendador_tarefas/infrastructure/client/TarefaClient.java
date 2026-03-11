@@ -6,8 +6,6 @@ import com.geisivan.bff_agendador_tarefas.business.enums.StatusNotificacaoEnum;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
