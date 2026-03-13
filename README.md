@@ -1,5 +1,7 @@
 # Microserviço BFF - Agendador de Tarefas (bff-agendador)
 
+<div align="center">
+
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Java 17](https://img.shields.io/badge/java-17-brightgreen)
 ![Spring Boot 3.3.5](https://img.shields.io/badge/spring_boot-3.3.5-brightgreen)
@@ -13,6 +15,8 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=code_smells)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
 [![Duplications](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_bff-agendador-tarefas&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=geisivanvitena_bff-agendador-tarefas)
 
+</div>
+
 ---
 
 ### Contexto do Projeto
@@ -21,83 +25,87 @@ O **bff-agendador** é uma API REST desenvolvida em **Java com Spring Boot** e f
 
 Este microserviço implementa o padrão **Backend for Frontend (BFF)**, atuando como camada intermediária entre os clientes (Web e Mobile) e os microserviços internos do sistema.
 
-**Objetivo principal:**
+**Este microserviço é responsável por:**
 
-Orquestrar chamadas, agregar dados de múltiplos serviços e reduzir o acoplamento direto entre o frontend e os microserviços de domínio.
+- Centralizar a comunicação entre frontend e microserviços
+- Orquestrar chamadas entre serviços
+- Agregar dados de múltiplos microserviços
+- Encaminhar requisições autenticadas
+- Padronizar respostas enviadas aos clientes
 
----
+O BFF atua como **porta de entrada da arquitetura**, reduzindo o acoplamento entre o frontend e os serviços de domínio.
 
-### Papel na Arquitetura de Microserviços
-
-**O BFF é responsável por:**
-
-- Orquestrar chamadas entre microserviços
-
-- Agregar dados de múltiplas fontes
-
-- Reduzir a complexidade no frontend
-
-- Centralizar regras específicas de apresentação
-
-- Padronizar respostas para os clientes
-
-A comunicação ocorre via **HTTP**, utilizando padrão REST e troca de dados em formato **JSON**.
-
-**O BFF se comunica com os seguintes microserviços:**
-
-- **ms-usuarios** — gerenciamento de usuários e autenticação
-
-- **ms-agendador** — gerenciamento de tarefas e status
-
-- **ms-notificacao** — envio de notificações e alertas
+O microserviço está **dockerizado**, permitindo execução isolada, portabilidade e fácil integração com os demais serviços.
 
 ---
 
-**Fluxo arquitetural:**
+### Arquitetura do Sistema
 
-    • Frontend → BFF → Microserviços → Banco de Dados
+O sistema **Agendador de Tarefas** é composto por múltiplos microserviços especializados que trabalham de forma independente.
 
-**Essa abordagem promove:**
+O bff-agendador atua como camada de **orquestração entre o cliente e os serviços internos da arquitetura**.
+
+---
+
+**Diagrama da Arquitetura**
+
+<div align="center">
+  <img src="images/diagrama.png" alt="Diagrama da Arquitetura" width="700px">
+</div>
+
+### Descrição do Fluxo
+
+1. Cliente realiza autenticação através do **ms-usuarios**.
+2. **ms-usuarios** gera um token JWT.
+3. Cliente envia requisições autenticadas para o **BFF**.
+4. BFF encaminha requisições para os microserviços apropriados.
+5. **ms-tarefas** gerencia e persiste as tarefas no **MongoDB**.
+6. Quando necessário, o **BFF** ou o **ms-tarefas** aciona o **ms-notificacao**.
+7. O **ms-notificacao** envia notificações por e-mail.
+
+---
+
+**Benefícios da arquitetura:**
 
 - Separação clara de responsabilidades
-
-- Desacoplamento entre frontend e serviços de domínio
-
-- Evolução independente dos microserviços
-
-- Maior controle da comunicação externa
+- Redução do acoplamento entre frontend e microserviços
+- Segurança centralizada
+- Escalabilidade independente dos serviços
+- Orquestração centralizada no BFF
 
 ---
-
-### API REST
-
-O **bff-agendador** expõe endpoints REST **stateless**, utilizando:
-
-- Métodos HTTP: (GET, POST, PUT, PATCH, DELETE)
-
-- Representação de recursos em **JSON**
-
-- Comunicação síncrona entre serviços via REST
 
 #### Integração com OpenFeign
 
-O BFF utiliza **OpenFeign** para comunicação declarativa entre microserviços, permitindo:
+O BFF utiliza **OpenFeign** para comunicação declarativa entre microserviços.
+
+**Essa abordagem garante:**
 
 - Redução de código boilerplate
 - Padronização de chamadas HTTP
 - Facilidade na manutenção de endpoints remotos
+- Comunicação simplificada entre serviços da arquitetura
+
+O BFF se integra com os seguintes serviços:
+
+- **ms-usuarios**
+- **ms-tarefas**
+- **ms-notificacao**
 
 ---
 
-### Autenticação
+### Segurança
 
-A autenticação é centralizada no **ms-usuarios**, utilizando:
+A autenticação do sistema é centralizada no **ms-usuarios**, utilizando **JWT (JSON Web Token)**.
 
-- **Spring Security**
+**Principais mecanismos de segurança:**
 
-- **JWT (JSON Web Token)**
+- Autenticação baseada em JWT emitido pelo ms-usuarios
+- Encaminhamento seguro do token entre microserviços
+- Validação de requisições autenticadas
+- Proteção de endpoints sensíveis
 
-O BFF atua como intermediário, validando e repassando o token JWT para os serviços apropriados, garantindo que apenas requisições autenticadas sejam processadas.
+O BFF atua como intermediário, encaminhando o token JWT para os microserviços responsáveis pela validação da autenticação.
 
 ---
 
@@ -105,15 +113,12 @@ O BFF atua como intermediário, validando e repassando o token JWT para os servi
 
 O microserviço utiliza **Spring Boot Actuator** para monitoramento e exposição de métricas operacionais.
 
-**Os endpoints de gerenciamento permitem:**
+**Endpoints disponíveis:**
 
--  Healthcheck da aplicação
-
--  Monitoramento de disponibilidade
-
--  Exposição de métricas de desempenho
-
--  Informações do ambiente
+- Healthcheck da aplicação
+- Monitoramento de disponibilidade
+- Exposição de métricas
+- Informações do ambiente
 
 **Exemplo de endpoint:**
 
@@ -123,23 +128,21 @@ A utilização do Actuator no BFF é especialmente relevante, pois ele atua como
 
 ---
 
+### API REST
+
+O **bff-agendador** expõe endpoints REST **stateless**:
+
+- Métodos HTTP: GET, POST, PUT, PATCH, DELETE
+- Representação de recursos em JSON
+- Comunicação HTTP com os microserviços internos
+
+Os endpoints do BFF atuam como **camada de orquestração**, encaminhando requisições para os serviços apropriados.
+
+---
+
 ### Documentação da API
 
-A documentação das APIs está disponível via **Swagger** nos respectivos microserviços:
-
-**Usuário API**
-
-    http://localhost:8080/swagger-ui.html
-
-**Agendador API**
-
-    http://localhost:8081/swagger-ui.html
-
-**Notificação API**
-
-    http://localhost:8082/swagger-ui.html
-
-**BFF API**
+A documentação da API está disponível via **Swagger**
 
     http://localhost:8083/swagger-ui.html
 
@@ -147,28 +150,13 @@ A documentação das APIs está disponível via **Swagger** nos respectivos micr
 
 ### Tecnologias Utilizadas
 
-- **Java 17**
-
-- **Spring Boot**
-
-- **Maven**
-
-- **OpenFeign** (Comunicação entre microserviços)
-
-- **Spring Boot Actuator**
-
-- **Docker**
-
----
-
-### Endpoints Expostos
-
-| Serviço	              | Porta |
-|-----------------------|-------| 
-| Usuário API	                 | 8080  |
-| Agendador API	         | 8081  |
-| Notificação API        | 8082  |
-| BFF       | 8083  |
+- Java 17
+- Spring Boot
+- Spring Web
+- Spring Cloud OpenFeign
+- Spring Boot Actuator
+- Maven
+- Docker
 
 ---
 
@@ -184,87 +172,48 @@ A documentação das APIs está disponível via **Swagger** nos respectivos micr
 
 ### Variáveis de Ambiente
 
-Criar um arquivo .env na raiz do projeto contendo:
+Criar um arquivo `.env` na raiz do projeto contendo as seguintes variáveis.
 
-**Banco de Dados (PostgreSQL)**
-
-    DB_USER=usuario
-
-    DB_PASSWORD=senha
-
-Responsável pela autenticação no banco utilizado pelo BFF
-
-**Login do Sistema (Automação / Cron)**
-
-    USUARIO_EMAIL=email
-
-    USUARIO_SENHA=senha
-
-Credenciais utilizadas para autenticação automática entre serviços (ex: rotinas agendadas).
-
-**Portas dos Microserviços**
-
-    USUARIO_API_PORT=8080
-
-    AGENDADOR_API_PORT=8081
-
-    NOTIFICACAO_API_PORT=8082 
-
-    BFF_API_PORT=8083
-
-**Definem as portas de comunicação entre:**
-
-- ms-usuarios
-
-- ms-tarefas
-
-- ms-notificacao
-
-- bff-agendador
-
-**Configuração de E-mail (Notificações)**
-
-    MAIL_USERNAME=email
-
-    MAIL_PASSWORD=senha
-
-    MAIL_HOST=smtp.gmail.com
-
-    MAIL_PORT=587
-
-Utilizado para envio de notificações por e-mail via SMTP.
+| Variável | Descrição |
+|--------|-----------|
+| DB_USER | Usuário do banco de dados PostgreSQL |
+| DB_PASSWORD | Senha do banco de dados PostgreSQL |
+| USUARIO_EMAIL | Email utilizado para autenticação automática do sistema (Cron) |
+| USUARIO_SENHA | Senha utilizada para autenticação automática do sistema (Cron) |
+| USUARIO_API_PORT | Porta do microserviço **ms-usuarios** |
+| AGENDADOR_API_PORT | Porta do microserviço **ms-tarefas** |
+| NOTIFICACAO_API_PORT | Porta do microserviço **ms-notificacao** |
+| BFF_API_PORT | Porta do microserviço **bff-agendador** |
+| MAIL_USERNAME | Usuário SMTP para envio de e-mails |
+| MAIL_PASSWORD | Senha SMTP |
+| MAIL_HOST | Host do servidor SMTP |
+| MAIL_PORT | Porta do servidor SMTP |
 
 ---
 
 ### Benefícios Arquiteturais
 
-- Redução de chamadas diretas do frontend para múltiplos serviços
-
-- Orquestração centralizada
-
-- Melhor organização da comunicação externa
-
-- Segurança centralizada via JWT
-
+- Centralização da comunicação externa
+- Orquestração entre microserviços
+- Redução da complexidade no frontend
+- Comunicação declarativa via OpenFeign
+- Segurança baseada em JWT
 - Escalabilidade independente
-
-- Aplicação do padrão BFF
+- Containerização com Docker
+- Observabilidade integrada via Actuator
 
 ---
 
 ### Melhorias Futuras
 
-- Implementação de Circuit Breaker (Resiliência)
-
-- Integração com Prometheus para métricas
-
-- Implementação de mensageria (RabbitMQ ou Kafka)
-
+- Implementação de estratégias de resiliência
+- Circuit Breaker (Resilience4j)
+- Integração com mensageria (RabbitMQ ou Kafka)
+- Integração com Prometheus e Grafana
+- Implementação de testes automatizados
 - Deploy em ambiente Cloud
 
-- Implementação de testes automatizados (unitários e de integração)
-
-##
+---
 
 ### Autor
 
